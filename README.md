@@ -1,3 +1,6 @@
+Top 10 most-asked but rarely listed interview questions for Data Science roles in 2025, based on emerging trends, real-world project challenges, and behavioral assessment patterns. These are questions that often catch candidates off guard because they are practical, context-driven, or judgment-based, yet not commonly found on typical prep sites
+
+
 ✅ 1. **"Explain a time when your model worked well in testing but failed in production. What went wrong and how did you fix it?"**
 
 **Sample Answer:**
