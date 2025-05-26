@@ -113,4 +113,75 @@ A high ROC-AUC means the model distinguishes between classes well — but it doe
 
 **Bottom line:** A good model should optimize business KPIs, not just technical scores.
 
+### 🔹 **6. How do you handle a situation where model performance is high, but business stakeholders are unhappy with the results?**
+
+**Answer:**
+This is a classic case of the **accuracy-interpretability tradeoff** or **misalignment with business KPIs**. I’d start by:
+
+* **Asking stakeholders** what specific outcomes they expected — e.g., higher recall for fraud detection, or better precision for a recommendation system.
+* **Review the business metric vs. model metric mismatch.** For example, the model’s F1-score might be 0.92, but stakeholders care about a specific segment where performance is low.
+* Consider building **segment-wise performance reports**, or even **custom business logic** layered on top of the model.
+* If interpretability is the concern, I’d use tools like **SHAP, LIME, or decision trees** to explain the model’s logic.
+* The goal is not just a performant model — it's a **useful and actionable** model for the business.
+
+---
+
+### 🔹 **7. Imagine your dataset is highly imbalanced (e.g., 99:1 ratio). Apart from using SMOTE or undersampling, what creative strategies could you use?**
+
+**Answer:**
+Creative alternatives include:
+
+* **Cost-sensitive learning**: Assigning higher penalties to misclassifying the minority class during training (via custom loss functions).
+* **Ensemble models with anomaly detection**: Treat the minority class as an outlier and combine it with isolation forests or one-class SVMs.
+* **Data enrichment**: Pull in **external or synthetic features** that may correlate strongly with the minority class. For example, adding geolocation-based risk scores.
+* **Using temporal patterns**: If the imbalance is time-based (e.g., fraud spikes in Dec), model the time series aspect separately.
+* **Active learning**: Retrain only on uncertain or borderline predictions to focus the model on harder cases.
+
+---
+
+### 🔹 **8. You’re given a dataset with 200 features and 1,000 rows. What approach would you take to prevent overfitting and extract real insights?**
+
+**Answer:**
+This is a classic **“small n, large p”** problem. I would:
+
+1. **Perform dimensionality reduction** — start with PCA for visualization, but rely on **feature importance from tree-based models** (like XGBoost) to identify top features.
+2. Use **regularization-based models** (L1 – Lasso, or ElasticNet) that naturally perform feature selection.
+3. Consider **domain knowledge** to eliminate irrelevant or redundant features manually.
+4. Use **cross-validation** rigorously (e.g., stratified k-fold) to avoid overfitting during training.
+5. If applicable, **create feature clusters** or **interactions** (e.g., pairwise combinations) and see if they explain variance better.
+
+---
+
+### 🔹 **9. Tell me about a time when your model failed in production. What did you learn and how did you fix it?**
+
+**Answer:**
+In a past project, a churn prediction model worked well during validation but started **drifting** in production — it predicted almost all users would stay, while churn increased.
+
+**Root cause**: The data pipeline had silently changed — new features were missing due to an upstream schema change.
+
+**What I did:**
+
+* Implemented **data versioning** and **data validation checks** (using tools like Great Expectations).
+* Added a **CI/CD monitoring pipeline** with alerting for feature distribution drift.
+* Also started using **shadow models** to test new models silently before full deployment.
+
+**Lesson**: ML in production isn’t just about models. It’s about building **resilient systems** that can detect, explain, and recover from silent failures.
+
+---
+
+### 🔹 **10. Suppose you’re building a model with 85% accuracy, but the baseline is 83%. Is that good enough? Justify.**
+
+**Answer:**
+Not necessarily. A 2% improvement sounds small, **unless** it drives substantial **business impact** or reduces **operational risk**.
+
+I’d analyze:
+
+* **Cost-benefit**: Does this 2% improvement lead to \$50k more revenue or save \$100k in fraud?
+* **Statistical significance**: Is the gain statistically robust across folds or user segments?
+* **Model complexity**: Did we use a heavy ensemble model to get that 2%, increasing compute costs 10x?
+* **Ethical considerations**: Does this model perform equally across age, gender, location? Even a small gain could be biased if unchecked.
+
+So, I'd say: **85% may not be worth it unless it clearly beats the baseline in business, cost, and fairness.**
+
+
 
